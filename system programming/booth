@@ -1,0 +1,64 @@
+//code your verilog design here.
+module circuit1(p,a,b);
+reg [7:0]z;
+reg [3:0]acc;
+input [3:0]a;
+input [3:0]b;
+output [7:0]p;
+reg [7:0]p;
+reg [3:0]y;
+integer i;
+always@(a,b)
+begin
+acc=4'd0;
+z[7:4]=acc[3:0];
+z[3:0]=b[3:0];
+y=-a;
+i=0;
+while(i<4)
+	begin
+	if(i==0 & b[i]==0)
+	begin
+		z=z>>1;
+		z[7]=z[6];
+		acc[3:0]=z[7:4];
+	end
+	else if(i==0 & b[i]==1)
+	begin
+		acc=acc+y;
+		z[7:4]=acc[3:0];
+		z=z>>1;
+		z[7]=z[6];
+		acc[3:0]=z[7:4];
+	end
+	else
+	begin
+		if((b[i-1]-b[i])==0)
+		begin
+			z=z>>1;
+			z[7]=z[6];
+			acc[3:0]=z[7:4];
+		end
+		else if((b[i-1]-b[i])==-1)
+		begin
+			acc= acc+y;
+			z[7:4]=acc[3:0];
+			z=z>>1;
+			z[7]= z[6];
+			acc[3:0]= z[7:4];
+		end
+		else if((b[i-1]-b[i])==1)
+		begin
+			acc=acc+a;
+			z[7:4]=acc[3:0];
+			z=z>>1;
+			z[7]=z[6];
+			acc[3:0]=z[7:4];
+		end
+	end
+	i=i+1;
+	end
+p[7:0]=z[7:0];
+end
+
+endmodule
